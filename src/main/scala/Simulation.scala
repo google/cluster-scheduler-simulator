@@ -772,9 +772,9 @@ object Simulation {
     while(!futures.isEmpty) {
       Thread.sleep(5 * 1000)
       val (completed, running) = futures.partition(_.isDone)
-      if (completed != 0) {
+      if (completed.length > 0) {
         numFinishedExps += completed.length
-        println("%d more experiments just finished running: %d / %d total;."
+        println("%d more experiments just finished running. In total, %d of %d have finished."
                 .format(completed.length, numFinishedExps, numTotalExps))
       }
       completed.foreach(x => try x.get() catch {
