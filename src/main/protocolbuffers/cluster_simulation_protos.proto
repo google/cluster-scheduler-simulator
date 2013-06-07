@@ -1,0 +1,100 @@
+package ClusterSchedulingSimulation;
+
+message ExperimentResultSet {
+  repeated ExperimentEnv experiment_env = 1;
+
+  message ExperimentEnv {
+    optional string cell_name = 1;
+    optional string workload_split_type = 2;
+    optional bool is_prefilled = 5 [default = false];
+    optional double run_time = 3;
+    repeated ExperimentResult experiment_result = 4;
+    // Next field number: 6
+
+    // There is a 1-1 relationship between an ExperimentResult and a WorkloadDesc.
+    message ExperimentResult {
+      // Track avg resource utilization attributable to tasks actually running.
+      optional double cell_state_avg_cpu_utilization = 4;
+      optional double cell_state_avg_mem_utilization = 5;
+      // Track avg resource utilization attributable to pessimistic locking
+      // while schedulers make their scheduling decisions.
+      optional double cell_state_avg_cpu_locked = 13;
+      optional double cell_state_avg_mem_locked = 14;
+      // Track per-workload level stats for this experiment.
+      repeated WorkloadStats workload_stats = 6;
+      // Workload specific experiment parameters.
+      optional string sweep_workload = 8;
+      optional double avg_job_interarrival_time = 9;
+      // Track per-scheduler level stats for this experiment.
+      repeated SchedulerStats scheduler_stats = 7;
+      // Scheduler specific experiment parameters.
+      repeated SchedulerWorkload sweep_scheduler_workload = 10;
+      optional double constant_think_time = 11;
+      optional double per_task_think_time = 12;
+      // Next field number: 15
+
+      // Workload-level stats.
+      message WorkloadStats {
+        optional string workload_name = 1;
+        optional int64 num_jobs = 2;
+        optional int64 num_jobs_scheduled = 3;
+        optional double job_think_times_90_percentile = 4;
+        optional double avg_job_queue_times_till_first_scheduled = 5;
+        optional double avg_job_queue_times_till_fully_scheduled = 6;
+        optional double job_queue_time_till_first_scheduled_90_percentile = 7;
+        optional double job_queue_time_till_fully_scheduled_90_percentile = 8;
+        optional double num_scheduling_attempts_90_percentile = 9;
+        optional double num_scheduling_attempts_99_percentile = 10;
+        optional double num_task_scheduling_attempts_90_percentile = 11;
+        optional double num_task_scheduling_attempts_99_percentile = 12;
+      }
+
+      message SchedulerStats {
+        optional string scheduler_name = 1;
+        optional double useful_busy_time = 3;
+        optional double wasted_busy_time = 4;
+        repeated PerDayStats per_day_stats = 15;
+        repeated PerWorkloadBusyTime per_workload_busy_time = 5;
+        // These are job level transactions
+        // TODO(andyk): rename these to include "job" in the name.
+        optional int64 num_successful_transactions = 6;
+        optional int64 num_failed_transactions = 7;
+        optional int64 num_no_resources_found_scheduling_attempts = 13;
+        optional int64 num_retried_transactions = 11;
+        optional int64 num_jobs_timed_out_scheduling = 16;
+        optional int64 num_successful_task_transactions = 9;
+        optional int64 num_failed_task_transactions = 10;
+        optional bool is_multi_path = 8;
+        // Num jobs in schedulers job queue when simulation ended.
+        optional int64 num_jobs_left_in_queue = 12;
+        optional int64 failed_find_victim_attempts = 14;
+        // Next field ID:17
+
+        // Per-day bucketing of important stats to support error bars.
+        message PerDayStats {
+          optional int64 day_num = 1;
+          optional double useful_busy_time = 2;
+          optional double wasted_busy_time = 3;
+          optional int64 num_successful_transactions = 4;
+          optional int64 num_failed_transactions = 5;
+        }
+
+
+        // Track busy time per scheduler, per workload.
+        message PerWorkloadBusyTime {
+          optional string workload_name = 1;
+          optional double useful_busy_time = 2;
+          optional double wasted_busy_time = 3;
+        }
+      }
+
+      // (scheduler, workload) pairs, used to keep track of which
+      // such pairs the parameter sweep is applied to in an experiment run.
+      message SchedulerWorkload {
+        optional string schedulerName = 1;
+        optional string workloadName = 2;
+      }
+    }
+  }
+}
+

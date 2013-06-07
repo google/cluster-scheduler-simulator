@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Copy this file to cluster-sim-env.sh and add configuration settings here.
+
+# Export environment variables for your site in this file. Some useful
+# variables to set are:
+
+# JAVA_OPTS, used in the Java command line in bin/sbt. For example, to set
+#            the heap size, make this -Xmx500m for a 500meg heap or
+#            -Xmx1G for 1gig heap (this example is commented out below).
+# export JAVA_OPTS="-Xmx1Gm"

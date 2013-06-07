@@ -1,0 +1,11 @@
+#! /bin/bash
+NOFORMAT="false"
+if [ "$1" == "NOFORMAT" ]; then
+   NOFORMAT="true"
+   shift
+fi 
+export CLUSTER_SIM_HOME=$(cd "$(dirname $0)/.."; pwd)
+if [[ -f $CLUSTER_SIM_HOME/conf/cluster-sim-env.sh ]]; then
+  source $CLUSTER_SIM_HOME/conf/cluster-sim-env.sh #Sets up JAVA_OPTS env variable
+fi
+java -Dsbt.log.noformat=$NOFORMAT $JAVA_OPTS -XX:+UseParallelGC -jar `dirname $0`/sbt-launch-0.11.3-2.jar "$@"
