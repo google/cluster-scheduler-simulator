@@ -80,8 +80,5 @@ def cell_to_anon(cell):
     return 'B'
   elif cell == 'C':
     return 'C'
-  elif cell == 'synth':
-    return 'SYNTH'
   else:
-    print "unknown cell!?"
-    raise Exception
+    return 'SYNTH'

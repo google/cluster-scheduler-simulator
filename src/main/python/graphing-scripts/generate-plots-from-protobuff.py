@@ -93,9 +93,9 @@ if paper_mode:
 else:
   fig = plt.figure()
 
-prefilled_colors_web = { 'A': 'b', 'B': 'k', 'C': 'c', "synth": 'y' }
-colors_web = { 'A': 'b', 'B': 'k', 'C': 'm', "synth": 'y' }
-colors_paper = { 'A': 'b', 'B': 'k', 'C': 'c', "synth": 'b' }
+prefilled_colors_web = { 'A': 'b', 'B': 'k', 'C': 'c', "SYNTH": 'y' }
+colors_web = { 'A': 'b', 'B': 'k', 'C': 'm', "SYNTH": 'y' }
+colors_paper = { 'A': 'b', 'B': 'k', 'C': 'c', "SYNTH": 'b' }
 per_wl_colors = { 'OmegaService': 'k',
                   'OmegaBatch': 'b'
                   }
@@ -686,8 +686,10 @@ def plot_1d_data_set_dict(data_set_1d_dict,
       local_colors = colors
       local_linestyles = linestyles
 
-    ax.plot(x_vals, y_vals, 'x-', color=local_colors[exp_env.cell_name],
-            label=cell_label, markersize=ms, mec=local_colors[exp_env.cell_name])
+    ax.plot(x_vals, y_vals, 'x-',
+            color=local_colors[cell_to_anon(exp_env.cell_name)],
+            label=cell_label, markersize=ms,
+            mec=local_colors[cell_to_anon(exp_env.cell_name)])
 
   setup_graph_details(ax, plot_title, filename_suffix, y_label, y_axis_type, x_vals)
 
@@ -716,11 +718,11 @@ def plot_2d_data_set_dict(data_set_2d_dict,
     else:
       cell_label = exp_env.cell_name
 
-    if exp_env.cell_name != "B":
-      print("skipping %s" % exp_env.cell_name)
-      continue
-    else:
-      print("not skipping %s" % exp_env.cell_name)
+#    if exp_env.cell_name != "B":
+#      print("skipping %s" % exp_env.cell_name)
+#      continue
+#    else:
+#      print("not skipping %s" % exp_env.cell_name)
 
     # If in paper mode, skip this plot if the cell name was not
     # passed in as argument envs_to_plot.
@@ -782,9 +784,9 @@ def plot_2d_data_set_dict(data_set_2d_dict,
       if error_bars_data_set_2d_dict is None:
         ax.plot(x_vals, y_vals, linestyles_paper[wl_or_sched_num],
                   dashes=dashes_paper[wl_or_sched_num],
-                  color=local_colors[exp_env.cell_name],
+                  color=local_colors[cell_to_anon(exp_env.cell_name)],
                   label=line_label, markersize=ms,
-                  mec=local_colors[exp_env.cell_name])
+                  mec=local_colors[cell_to_anon(exp_env.cell_name)])
       else:
         err_bar_vals = \
             [i.y for i in error_bars_data_set_2d_dict[exp_env][wl_or_sched_name]]
