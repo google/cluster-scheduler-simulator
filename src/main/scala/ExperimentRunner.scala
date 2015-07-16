@@ -390,8 +390,8 @@ class Experiment(
                 // a lot of the stats below, so that the we can be sure
                 // which column is which when we print the stats.
                 val sortedSchedulers = simulator
-                    .schedulers.values.toList.sort(_.name < _.name)
-                val sortedWorkloads = workloads.toList.sort(_.name < _.name)
+                    .schedulers.values.toList.sortWith(_.name < _.name)
+                val sortedWorkloads = workloads.toList.sortWith(_.name < _.name)
 
                 // Sorted names of workloads.
                 var workloadNames = sortedWorkloads.map(_.name).mkString(" ")
@@ -463,7 +463,7 @@ class Experiment(
                 val perWorkloadSchedBusyTimes = sortedSchedulers.map(sched => {
                   // Sort by workload name.
                   val sortedSchedulingTimes =
-                    sched.perWorkloadUsefulTimeScheduling.toList.sort(_._1<_._1)
+                    sched.perWorkloadUsefulTimeScheduling.toList.sortWith(_._1<_._1)
                   sortedSchedulingTimes.map(nameTimePair => {
                     (nameTimePair._2 +
                      sched.perWorkloadWastedTimeScheduling(nameTimePair._1)) /
