@@ -156,7 +156,7 @@ echo capturing: ls $input_dir|grep protobuf
 ls $input_dir|grep protobuf
 for curr_filename in `ls $input_dir|grep protobuf`; do
   PROTO_LIST+=curr_filename
+  echo Calling graph_experiment with $curr_filename
+  graph_experiment $curr_filename
 done
-echo Calling graph_experiment with $curr_filename
-graph_experiment $curr_filename
 
