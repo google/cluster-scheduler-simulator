@@ -32,6 +32,8 @@ mainClass := Some("Simulation")
 
 scalacOptions += "-deprecation"
 
+scalaVersion := "2.9.2"
+
 // Add a dependency on commons-math for poisson random number generator
 libraryDependencies += "org.apache.commons" % "commons-math" % "2.2"
 
