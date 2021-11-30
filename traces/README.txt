@@ -37,5 +37,5 @@ elif apol == 'cmb_pbb':
 11 0.000000  158249529602 1 1 1 1 7286400
 
 == Bibliography ==
-[1] https://docs.google.com/file/d/0B5g07T_gRDg9NjZnSjZTZzRfbmM/edit
-[2] http://eurosys2013.tudos.org/wp-content/uploads/2013/paper/Schwarzkopf.pdf
+[1] Google ClusterData 2011 traces, https://github.com/google/cluster-data/blob/master/ClusterData2011_2.md
+[2] Omega: flexible, scalable schedulers for large compute clusters, https://research.google.com/pubs/pub41684.html
